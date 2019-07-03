@@ -146,6 +146,9 @@ type ProxyInfo struct {
 	// It's used by the sentinel to know for how much time the
 	// proxy should be considered active.
 	ProxyTimeout time.Duration
+
+	ListenAddress string `json:"listenAddress,omitempty"`
+	Port          string `json:"port,omitempty"`
 }
 
 type ProxiesInfo map[string]*ProxyInfo
