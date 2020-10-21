@@ -720,11 +720,11 @@ func (s *Sentinel) validStandbysByStatus(cd *cluster.ClusterData) (map[string]*c
 func sortDBs(cd *cluster.ClusterData, dbs []*cluster.DB) {
 	sort.Slice(dbs, func(i, j int) bool {
 		if dbs[i].Status.XLogPos != dbs[j].Status.XLogPos {
-			return dbs[i].Status.XLogPos < dbs[j].Status.XLogPos
+			return dbs[i].Status.XLogPos > dbs[j].Status.XLogPos
 		}
 		pi := cd.Keepers[dbs[i].Spec.KeeperUID].Spec.Priority
 		pj := cd.Keepers[dbs[j].Spec.KeeperUID].Spec.Priority
-		return pi < pj
+		return pi > pj
 	})
 }
 
