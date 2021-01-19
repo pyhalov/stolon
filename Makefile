@@ -9,12 +9,14 @@ VERSION ?= $(shell scripts/git-version.sh)
 dpkg_version = $(shell scripts/dpkg-version.sh)
 
 LD_FLAGS="-w -X $(REPO_PATH)/cmd.Version=$(VERSION)"
+DPKG_BINDIR ?= /opt/pgpro/sdm-13/bin
 
 $(shell mkdir -p bin )
 
 ifneq (, $(shell which dpkg))
 dpkg_arch := $(shell dpkg --print-architecture)
-dpkg_dir := stolon-shardman-$(dpkg_version).$(dpkg_arch)
+ubuntu_codename := $(shell lsb_release -cs)
+dpkg_dir := stolon-shardman-$(dpkg_version).$(ubuntu_codename)_$(dpkg_arch)
 define CONTROLFILE
 Package: stolon-shardman
 Version: $(dpkg_version)
@@ -59,8 +61,8 @@ docker:
 deb:
 ifdef dpkg_arch
 	rm -rf $(dpkg_dir)
-	mkdir -p $(dpkg_dir)/opt/pgpro/shardman/bin
-	cp -p bin/* $(dpkg_dir)/opt/pgpro/shardman/bin
+	mkdir -p $(dpkg_dir)$(DPKG_BINDIR)
+	cp -p bin/* $(dpkg_dir)$(DPKG_BINDIR)
 	mkdir -p $(dpkg_dir)/DEBIAN
 	echo "$$CONTROLFILE" > $(dpkg_dir)/DEBIAN/control
 	dpkg-deb --build --root-owner-group $(dpkg_dir)
