@@ -65,7 +65,7 @@ ifdef dpkg_arch
 	cp -p bin/* $(dpkg_dir)$(DPKG_BINDIR)
 	mkdir -p $(dpkg_dir)/DEBIAN
 	echo "$$CONTROLFILE" > $(dpkg_dir)/DEBIAN/control
-	dpkg-deb --build --root-owner-group $(dpkg_dir)
+	dpkg-deb --build --root-owner-group $(dpkg_dir) $(PKGDIR)
 	rm -rf $(dpkg_dir)
 else
 	@echo dpkg not found!
