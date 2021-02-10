@@ -58,7 +58,7 @@ docker:
 	if [ -z $${TAG} ]; then echo 'TAG is undefined'; exit 1; fi; \
 	docker build --build-arg PGVERSION=${PGVERSION} -t ${TAG} -f examples/kubernetes/image/docker/Dockerfile .
 
-deb:
+deb-pack:
 ifdef dpkg_arch
 	rm -rf $(dpkg_dir)
 	mkdir -p $(dpkg_dir)$(DPKG_BINDIR)
@@ -70,3 +70,5 @@ ifdef dpkg_arch
 else
 	@echo dpkg not found!
 endif
+
+deb: all deb-pack
