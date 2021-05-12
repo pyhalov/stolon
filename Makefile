@@ -9,7 +9,13 @@ VERSION ?= $(shell scripts/git-version.sh)
 dpkg_version = $(shell scripts/dpkg-version.sh)
 
 LD_FLAGS="-w -X $(REPO_PATH)/cmd.Version=$(VERSION)"
-DPKG_BINDIR ?= /opt/pgpro/sdm-13/bin
+pg_version ?= 13.3
+PG_VERSION ?= ${pg_version}
+
+pg_major := $(firstword $(subst ., ,$(pg_version)))
+pg_minor := $(word 2,$(subst ., ,$(pg_version)))
+
+DPKG_BINDIR ?= /opt/pgpro/sdm-$(pg_major)/bin
 
 $(shell mkdir -p bin )
 
